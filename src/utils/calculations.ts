@@ -1,4 +1,4 @@
-import { Assignment, Subject, SubjectSummary } from '../types/subject';
+import { Subject, SubjectSummary } from '../types/subject';
 
 export function calculateSubjectSummary(subject: Subject): SubjectSummary {
   let currentTotal = 0;
