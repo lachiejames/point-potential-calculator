@@ -1,7 +1,14 @@
 {
   "name": "point-potential-calculator",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "description": "A calculator to track potential maximum grades in subjects based on assignment scores",
+  "author": "Lachie James",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lachiejames/point-potential-calculator"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -23,5 +30,15 @@
     "eslint": "^9",
     "eslint-config-next": "15.1.0",
     "@eslint/eslintrc": "^3"
+  },
+  "keywords": [
+    "grade-calculator",
+    "education",
+    "student-tools",
+    "next.js",
+    "react"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
