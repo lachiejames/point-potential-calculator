@@ -2,16 +2,35 @@
 
 import { useState } from "react";
 import { Subject, Assignment } from "@/types/subject";
-import { calculateSubjectSummary } from "@/utils/calculations";
+import { calculateSubjectSummary, getDemoData } from "@/utils/calculations";
 
 export default function Home() {
-  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [subjects, setSubjects] = useState<Subject[]>(getDemoData());
   const [newSubjectName, setNewSubjectName] = useState("");
   const [editingSubjectId, setEditingSubjectId] = useState<string | null>(null);
   const [showNameError, setShowNameError] = useState(false);
-  const [expandedSubjectId, setExpandedSubjectId] = useState<string | null>(
-    null
+  const [expandedSubjectIds, setExpandedSubjectIds] = useState<Set<string>>(
+    new Set(getDemoData().map(subject => subject.id))
   );
+  const [isShowingDemoData, setIsShowingDemoData] = useState(true);
+
+  const toggleSubject = (subjectId: string) => {
+    setExpandedSubjectIds(prev => {
+      const next = new Set(prev);
+      if (next.has(subjectId)) {
+        next.delete(subjectId);
+      } else {
+        next.add(subjectId);
+      }
+      return next;
+    });
+  };
+
+  const clearDemoData = () => {
+    setSubjects([]);
+    setExpandedSubjectIds(new Set());
+    setIsShowingDemoData(false);
+  };
 
   const addSubject = () => {
     if (!newSubjectName.trim()) {
@@ -28,14 +47,16 @@ export default function Home() {
     setSubjects([...subjects, newSubject]);
     setNewSubjectName("");
     setShowNameError(false);
-    setExpandedSubjectId(newSubject.id); // Auto-expand new subject
+    setExpandedSubjectIds(prev => new Set([...prev, newSubject.id]));
   };
 
   const removeSubject = (subjectId: string) => {
     setSubjects(subjects.filter((subject) => subject.id !== subjectId));
-    if (expandedSubjectId === subjectId) {
-      setExpandedSubjectId(null);
-    }
+    setExpandedSubjectIds(prev => {
+      const next = new Set(prev);
+      next.delete(subjectId);
+      return next;
+    });
   };
 
   const updateSubjectName = (subjectId: string, newName: string) => {
@@ -168,6 +189,30 @@ export default function Home() {
             </li>
           </ol>
         </div>
+        
+        {/* Demo Data Notice */}
+        {isShowingDemoData && subjects.length > 0 && (
+          <div className="mb-8 p-6 bg-yellow-50 rounded-xl shadow-sm border border-yellow-200">
+            <div className="flex items-start gap-3">
+              <svg className="w-6 h-6 text-yellow-600 mt-1 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd" />
+              </svg>
+              <div>
+                <h3 className="text-lg font-semibold text-yellow-800 mb-2">Demo Data Loaded</h3>
+                <p className="text-yellow-800 mb-4">
+                  This calculator is pre-populated with sample computer science subjects to demonstrate how it works. 
+                  Clear the demo data to start adding your own subjects.
+                </p>
+                <button
+                  onClick={clearDemoData}
+                  className="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-lg hover:bg-yellow-200 transition-colors font-medium border border-yellow-300"
+                >
+                  Clear Demo Data
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Add Subject Form */}
         <div className="mb-8 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
@@ -204,11 +249,18 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Empty State */}
+        {subjects.length === 0 && (
+          <div className="text-center py-12 text-gray-500">
+            No subjects added yet. Add a subject to get started, or reload the page to see the demo data again.
+          </div>
+        )}
+
         {/* Subjects List */}
         <div className="space-y-4">
           {subjects.map((subject) => {
             const summary = calculateSubjectSummary(subject);
-            const isExpanded = expandedSubjectId === subject.id;
+            const isExpanded = expandedSubjectIds.has(subject.id);
 
             return (
               <div
@@ -224,9 +276,7 @@ export default function Home() {
                 <div
                   className={`p-6 flex justify-between items-center cursor-pointer hover:bg-gray-50/50 transition-colors
                     ${summary.isWeightValid ? "" : "bg-yellow-50/30"}`}
-                  onClick={() =>
-                    setExpandedSubjectId(isExpanded ? null : subject.id)
-                  }
+                  onClick={() => toggleSubject(subject.id)}
                 >
                   <div className="flex-1">
                     <div className="flex items-center gap-4">
