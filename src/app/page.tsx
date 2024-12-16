@@ -192,133 +192,135 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      <div className="max-w-4xl mx-auto p-8">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4 text-center">
+    <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 className="text-4xl font-bold text-gray-800 mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-800">
           Point Potential Calculator
         </h1>
 
-        {/* Share Link Button */}
+        {/* Share Link Section */}
         {subjects.length > 0 && (
-          <div className="mb-8 p-6 bg-white rounded-xl shadow-sm border border-blue-100">
+          <div className="mb-8 p-6 bg-white rounded-2xl shadow-lg border border-blue-100 transform transition-all hover:shadow-xl">
             <div className="flex flex-col gap-4">
-              <h2 className="text-xl font-semibold text-blue-800">
+              <h2 className="text-xl font-semibold text-blue-800 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                </svg>
                 Share Your Calculations
               </h2>
               <p className="text-gray-600">
                 Copy this link to access your calculations from any device or share with others:
               </p>
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="text"
                   value={shareUrl}
                   readOnly
-                  className="flex-1 p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-600"
+                  className="flex-1 p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 <button
                   onClick={copyShareLink}
-                  className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium shadow-sm whitespace-nowrap"
+                  className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200 font-medium shadow-sm hover:shadow-md active:scale-95 whitespace-nowrap flex items-center justify-center gap-2"
                 >
-                  {showCopiedMessage ? "Copied!" : "Copy Link"}
+                  {showCopiedMessage ? (
+                    <>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                        <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                      </svg>
+                      Copy Link
+                    </>
+                  )}
                 </button>
               </div>
             </div>
           </div>
         )}
 
-        {/* User Guide */}
-        <div className="mb-8 p-6 bg-white rounded-xl shadow-sm border border-blue-100">
-          <h2 className="text-xl font-semibold text-blue-800 mb-3">
+        {/* How to Use Section */}
+        <div className="mb-8 p-6 bg-white rounded-2xl shadow-lg border border-blue-100">
+          <h2 className="text-xl font-semibold text-blue-800 mb-4 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            </svg>
             How to Use
           </h2>
-          <ol className="list-decimal list-inside space-y-2 text-gray-700">
-            <li>Add a subject using the form below</li>
-            <li>
-              For each subject, add all assignments that contribute to your
-              final grade
+          <ol className="list-decimal list-inside space-y-3 text-gray-700">
+            <li className="flex items-start">
+              <span className="ml-2">Add a subject using the form below</span>
             </li>
-            <li>
-              Enter the weight (percentage contribution) for each assignment -
-              these must total 100%
+            <li className="flex items-start">
+              <span className="ml-2">For each subject, add all assignments that contribute to your final grade</span>
             </li>
-            <li>
-              Enter grades for completed assignments to see your current total
+            <li className="flex items-start">
+              <span className="ml-2">Enter the weight (percentage contribution) for each assignment - these must total 100%</span>
             </li>
-            <li>
-              Your point potential shows the highest possible grade you can
-              achieve
+            <li className="flex items-start">
+              <span className="ml-2">Enter grades for completed assignments to see your current total</span>
+            </li>
+            <li className="flex items-start">
+              <span className="ml-2">Your point potential shows the highest possible grade you can achieve</span>
             </li>
           </ol>
         </div>
-        
+
         {/* Demo Data Notice */}
-        {isShowingDemoData && subjects.length > 0 && (
-          <div className="mb-8 p-6 bg-yellow-50 rounded-xl shadow-sm border border-yellow-200">
-            <div className="flex items-start gap-3">
-              <svg className="w-6 h-6 text-yellow-600 mt-1 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd" />
-              </svg>
-              <div>
-                <h3 className="text-lg font-semibold text-yellow-800 mb-2">Demo Data Loaded</h3>
-                <p className="text-yellow-800 mb-4">
-                  This calculator is pre-populated with sample computer science subjects to demonstrate how it works. 
-                  Clear the demo data to start adding your own subjects.
-                </p>
-                <button
-                  onClick={clearDemoData}
-                  className="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-lg hover:bg-yellow-200 transition-colors font-medium border border-yellow-300"
-                >
-                  Clear Demo Data
-                </button>
-              </div>
+        {isShowingDemoData && (
+          <div className="mb-8 p-4 bg-yellow-50 rounded-xl border border-yellow-200 flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-500 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            </svg>
+            <div className="flex-1">
+              <p className="text-sm text-yellow-800">
+                This calculator is pre-populated with sample computer science subjects to demonstrate how it works. Clear the demo data to start adding your own subjects.
+              </p>
+              <button
+                onClick={clearDemoData}
+                className="mt-2 px-4 py-2 bg-yellow-100 text-yellow-700 rounded-lg hover:bg-yellow-200 transition-colors text-sm font-medium"
+              >
+                Clear Demo Data
+              </button>
             </div>
           </div>
         )}
 
         {/* Add Subject Form */}
-        <div className="mb-8 p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-4">
-              <input
-                type="text"
-                value={newSubjectName}
-                onChange={(e) => {
-                  setNewSubjectName(e.target.value);
-                  if (showNameError) setShowNameError(false);
-                }}
-                onKeyPress={handleKeyPress}
-                placeholder="Enter subject name"
-                className={`flex-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all
-                  ${
-                    showNameError
-                      ? "border-red-500 bg-red-50"
-                      : "border-gray-200"
-                  }`}
-              />
-              <button
-                onClick={addSubject}
-                className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium shadow-sm"
-              >
-                Add Subject
-              </button>
-            </div>
-            {showNameError && (
-              <div className="text-red-500 text-sm">
-                Please enter a subject name
-              </div>
-            )}
+        <div className="mb-8">
+          <div className="flex flex-col sm:flex-row gap-3">
+            <input
+              type="text"
+              value={newSubjectName}
+              onChange={(e) => setNewSubjectName(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Enter subject name"
+              className={`flex-1 p-3 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+                showNameError ? 'border-red-300' : 'border-gray-200'
+              }`}
+            />
+            <button
+              onClick={addSubject}
+              className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200 font-medium shadow-sm hover:shadow-md active:scale-95 whitespace-nowrap flex items-center justify-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+              </svg>
+              Add Subject
+            </button>
           </div>
+          {showNameError && (
+            <p className="mt-2 text-sm text-red-600">Please enter a subject name</p>
+          )}
         </div>
 
-        {/* Empty State */}
-        {subjects.length === 0 && (
-          <div className="text-center py-12 text-gray-500">
-            No subjects added yet. Add a subject to get started, or reload the page to see the demo data again.
-          </div>
-        )}
-
         {/* Subjects List */}
-        <div className="space-y-4">
+        <div className="space-y-6">
           {subjects.map((subject) => {
             const summary = calculateSubjectSummary(subject);
             const isExpanded = expandedSubjectIds.has(subject.id);
@@ -326,270 +328,168 @@ export default function Home() {
             return (
               <div
                 key={subject.id}
-                className={`bg-white rounded-xl shadow-sm border overflow-hidden transition-colors
-                  ${
-                    summary.isWeightValid
-                      ? "border-gray-100"
-                      : "border-yellow-200 bg-yellow-50/50"
-                  }`}
+                className="bg-white rounded-2xl shadow-lg border border-blue-100 overflow-hidden transition-all duration-200 hover:shadow-xl"
               >
-                {/* Subject Header - Always visible */}
                 <div
-                  className={`p-6 flex justify-between items-center cursor-pointer hover:bg-gray-50/50 transition-colors
-                    ${summary.isWeightValid ? "" : "bg-yellow-50/30"}`}
+                  className="p-4 sm:p-6 cursor-pointer"
                   onClick={() => toggleSubject(subject.id)}
                 >
-                  <div className="flex-1">
-                    <div className="flex items-center gap-4">
-                      <svg
-                        className={`w-5 h-5 transform transition-transform ${
-                          isExpanded ? "rotate-90" : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
                       {editingSubjectId === subject.id ? (
                         <input
                           type="text"
-                          value={subject.name}
-                          onChange={(e) =>
-                            updateSubjectName(subject.id, e.target.value)
-                          }
-                          onBlur={() => setEditingSubjectId(null)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                              setEditingSubjectId(null);
-                            }
+                          defaultValue={subject.name}
+                          onBlur={(e) => {
+                            updateSubjectName(subject.id, e.target.value);
+                            setEditingSubjectId(null);
                           }}
-                          onClick={(e) => e.stopPropagation()}
+                          className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           autoFocus
-                          className="text-2xl font-semibold text-gray-800 w-full p-1 border border-gray-200 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                          onClick={(e) => e.stopPropagation()}
                         />
                       ) : (
-                        <h2
-                          className="text-2xl font-semibold text-gray-800 hover:text-blue-600"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setEditingSubjectId(subject.id);
-                          }}
-                        >
+                        <h3 className="text-xl font-semibold text-gray-800 hover:text-blue-600 transition-colors">
                           {subject.name}
-                        </h2>
+                        </h3>
                       )}
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="text-right">
+                        <p className="text-sm text-gray-500">Current Grade</p>
+                        <p className="text-lg font-semibold text-gray-800">
+                          {summary.currentGrade.toFixed(1)}%
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-gray-500">Best Possible</p>
+                        <p className="text-lg font-semibold text-blue-600">
+                          {summary.bestPossible.toFixed(1)}%
+                        </p>
+                      </div>
+                      <button
+                        className={`p-2 text-gray-400 hover:text-gray-600 transition-transform ${
+                          isExpanded ? 'rotate-180' : ''
+                        }`}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
                     </div>
                   </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      removeSubject(subject.id);
-                    }}
-                    className="p-2 text-gray-400 hover:text-red-500 transition-colors ml-4"
-                    title="Remove subject"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
                 </div>
 
-                {/* Expanded Content */}
                 {isExpanded && (
-                  <div className="p-6 border-t border-gray-100">
-                    {/* Weight Status */}
-                    {!summary.isWeightValid && (
-                      <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg flex items-start gap-3">
-                        <svg
-                          className="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                        <div className="font-medium text-yellow-800">
-                          {summary.weightValidationMessage}
+                  <div className="border-t border-gray-100">
+                    <div className="p-4 sm:p-6">
+                      <div className="mb-4 overflow-x-auto">
+                        <table className="w-full">
+                          <thead>
+                            <tr>
+                              <th className="pb-3 text-left text-gray-600 font-medium">Assignment</th>
+                              <th className="pb-3 text-right text-gray-600 font-medium w-24">Weight (%)</th>
+                              <th className="pb-3 text-right text-gray-600 font-medium w-24">Grade (%)</th>
+                              <th className="pb-3 w-10"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {subject.assignments.map((assignment) => (
+                              <tr key={assignment.id} className="border-t border-gray-100">
+                                <td className="py-3">
+                                  <input
+                                    type="text"
+                                    value={assignment.name}
+                                    onChange={(e) =>
+                                      updateAssignment(subject.id, assignment.id, {
+                                        name: e.target.value,
+                                      })
+                                    }
+                                    className="w-full bg-transparent border-0 focus:ring-2 focus:ring-blue-500 rounded p-1"
+                                  />
+                                </td>
+                                <td className="py-3">
+                                  <div className="flex justify-end">
+                                    <input
+                                      type="text"
+                                      value={assignment.weight || ""}
+                                      onChange={(e) =>
+                                        handleInputChange(
+                                          subject.id,
+                                          assignment.id,
+                                          "weight",
+                                          e.target.value
+                                        )
+                                      }
+                                      className="w-16 text-right bg-transparent border-0 focus:ring-2 focus:ring-blue-500 rounded p-1"
+                                    />
+                                  </div>
+                                </td>
+                                <td className="py-3">
+                                  <div className="flex justify-end">
+                                    <input
+                                      type="text"
+                                      value={assignment.grade ?? ""}
+                                      onChange={(e) =>
+                                        handleInputChange(
+                                          subject.id,
+                                          assignment.id,
+                                          "grade",
+                                          e.target.value
+                                        )
+                                      }
+                                      className="w-16 text-right bg-transparent border-0 focus:ring-2 focus:ring-blue-500 rounded p-1"
+                                    />
+                                  </div>
+                                </td>
+                                <td className="py-3 text-center">
+                                  <button
+                                    onClick={() =>
+                                      removeAssignment(subject.id, assignment.id)
+                                    }
+                                    className="p-1 text-gray-400 hover:text-red-500 transition-colors"
+                                  >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                      <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                                    </svg>
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="flex items-center justify-between border-t border-gray-100 pt-4">
+                        <div className="space-y-1">
+                          <p className={`text-sm ${summary.totalWeight === 100 ? 'text-green-600' : 'text-red-600'}`}>
+                            Assignment weights total {summary.totalWeight.toFixed(1)}%
+                          </p>
+                          <p className="text-sm text-gray-500">
+                            You currently have {summary.currentGrade.toFixed(1)}% in this subject
+                          </p>
+                          <p className="text-sm text-blue-600">
+                            Best possible grade: {summary.bestPossible.toFixed(1)}%
+                          </p>
+                          <p className="text-xs text-gray-400">
+                            (Assuming perfect scores on remaining work worth {summary.remainingPoints.toFixed(1)}%)
+                          </p>
+                        </div>
+                        <div className="flex gap-3">
+                          <button
+                            onClick={() => addAssignment(subject.id)}
+                            className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors text-sm font-medium"
+                          >
+                            Add Assignment
+                          </button>
+                          <button
+                            onClick={() => removeSubject(subject.id)}
+                            className="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm font-medium"
+                          >
+                            Delete Subject
+                          </button>
                         </div>
                       </div>
-                    )}
-
-                    {/* Assignments List */}
-                    <div className="space-y-4">
-                      {subject.assignments.map((assignment) => {
-                        const weightError = validateInput(
-                          String(assignment.weight)
-                        );
-                        const gradeError =
-                          assignment.grade !== undefined
-                            ? validateInput(String(assignment.grade))
-                            : undefined;
-
-                        return (
-                          <div
-                            key={assignment.id}
-                            className="flex gap-4 items-start bg-gray-50 p-4 rounded-lg group"
-                          >
-                            <input
-                              type="text"
-                              value={assignment.name}
-                              onChange={(e) =>
-                                updateAssignment(subject.id, assignment.id, {
-                                  name: e.target.value,
-                                })
-                              }
-                              className="flex-1 p-2 border border-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                            />
-                            <div className="flex flex-col gap-1">
-                              <div className="relative">
-                                <input
-                                  type="text"
-                                  value={assignment.weight || ""}
-                                  onChange={(e) =>
-                                    handleInputChange(
-                                      subject.id,
-                                      assignment.id,
-                                      "weight",
-                                      e.target.value
-                                    )
-                                  }
-                                  placeholder="Weight"
-                                  className={`w-24 p-2 pr-8 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none
-                                    ${
-                                      weightError
-                                        ? "border-red-500 bg-red-50"
-                                        : "border-gray-200"
-                                    }`}
-                                />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-                                  %
-                                </span>
-                              </div>
-                              {weightError && (
-                                <div className="text-red-500 text-xs">
-                                  {weightError}
-                                </div>
-                              )}
-                            </div>
-                            <div className="flex flex-col gap-1">
-                              <div className="relative">
-                                <input
-                                  type="text"
-                                  value={
-                                    assignment.grade !== undefined
-                                      ? assignment.grade
-                                      : ""
-                                  }
-                                  onChange={(e) =>
-                                    handleInputChange(
-                                      subject.id,
-                                      assignment.id,
-                                      "grade",
-                                      e.target.value
-                                    )
-                                  }
-                                  placeholder="Grade"
-                                  className={`w-24 p-2 pr-8 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none
-                                    ${
-                                      gradeError
-                                        ? "border-red-500 bg-red-50"
-                                        : "border-gray-200"
-                                    }`}
-                                />
-                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-                                  %
-                                </span>
-                              </div>
-                              {gradeError && (
-                                <div className="text-red-500 text-xs">
-                                  {gradeError}
-                                </div>
-                              )}
-                            </div>
-                            <button
-                              onClick={() =>
-                                removeAssignment(subject.id, assignment.id)
-                              }
-                              className="p-2 text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
-                              title="Remove assignment"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            </button>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    <button
-                      onClick={() => addAssignment(subject.id)}
-                      className={`mt-4 px-4 py-2 text-sm rounded-lg font-medium transition-colors
-                        ${
-                          summary.isWeightValid
-                            ? "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                            : "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
-                        }`}
-                    >
-                      + Add Assignment
-                    </button>
-
-                    {/* Summary Section */}
-                    <div className="mt-8 pt-6 border-t border-gray-200">
-                      {summary.isWeightValid && (
-                        <div className="space-y-2">
-                          <div className="text-green-600 text-sm font-medium">
-                            {summary.weightValidationMessage}
-                          </div>
-                          {summary.currentTotal > 0 ? (
-                            <div className="text-gray-600">
-                              You currently have{" "}
-                              {summary.currentTotal.toFixed(1)}% in this subject
-                            </div>
-                          ) : (
-                            <div className="text-gray-600">
-                              No grades entered yet
-                            </div>
-                          )}
-                          {summary.remainingWeight > 0 && (
-                            <div className="text-gray-600">
-                              Best possible grade:{" "}
-                              {summary.pointPotential.toFixed(1)}%
-                              <div className="text-sm text-gray-500 mt-1">
-                                (Assumes perfect scores on remaining work worth{" "}
-                                {summary.remainingWeight.toFixed(1)}%)
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )}
                     </div>
                   </div>
                 )}

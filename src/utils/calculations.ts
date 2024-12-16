@@ -72,9 +72,9 @@ export function calculateSubjectSummary(subject: Subject): SubjectSummary {
     : 0;
 
   return {
-    currentTotal: isWeightValid ? currentTotal : 0,
-    pointPotential: isWeightValid ? pointPotential : 0,
-    remainingWeight: isWeightValid ? remainingWeight : 0,
+    currentGrade: isWeightValid ? currentTotal : 0,
+    bestPossible: isWeightValid ? pointPotential : 0,
+    remainingPoints: isWeightValid ? remainingWeight : 0,
     completedWeight: isWeightValid ? completedWeight : 0,
     isComplete: remainingWeight === 0,
     totalWeight,
