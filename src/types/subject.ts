@@ -15,5 +15,14 @@ export interface SubjectSummary {
   currentTotal: number;        // Current total based on completed assignments
   pointPotential: number;      // Maximum possible grade that can be achieved
   remainingWeight: number;     // Total weight of uncompleted assignments
+  completedWeight: number;     // Total weight of completed assignments
+  totalWeight: number;         // Sum of all assignment weights
   isComplete: boolean;         // Whether all assignments have grades
+  isWeightValid: boolean;      // Whether total weight equals 100%
+  weightValidationMessage: string; // Message explaining the current weight status
+}
+
+export interface PendingInput {
+  value: string;
+  error?: string;
 } 

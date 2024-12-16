@@ -1,58 +1,56 @@
-import { Subject, SubjectSummary } from '../types/subject';
+import { Assignment, Subject, SubjectSummary } from '../types/subject';
 
 export function calculateSubjectSummary(subject: Subject): SubjectSummary {
   let currentTotal = 0;
-  let pointPotential = 100;
+  let completedWeight = 0;
   let remainingWeight = 0;
   
-  // Calculate totals from completed assignments
-  subject.assignments.forEach(assignment => {
-    // Ensure weight is a valid number between 0 and 100
-    const weight = Math.min(Math.max(assignment.weight || 0, 0), 100);
-    
-    if (assignment.grade !== undefined) {
-      // Ensure grade is a valid number between 0 and 100
-      const grade = Math.min(Math.max(assignment.grade, 0), 100);
+  // Calculate total weight first to validate
+  const totalWeight = subject.assignments.reduce((sum, a) => sum + (a.weight || 0), 0);
+  const isWeightValid = Math.abs(totalWeight - 100) < 0.01;
+  
+  // Only calculate grades if weights are valid
+  if (isWeightValid) {
+    subject.assignments.forEach(assignment => {
+      const weight = assignment.weight || 0;
       
-      // Calculate points lost from maximum
-      const pointsLost = (100 - grade) * (weight / 100);
-      pointPotential -= pointsLost;
-      
-      // Add to current total
-      currentTotal += (grade * weight / 100);
-    } else {
-      remainingWeight += weight;
-    }
-  });
+      if (assignment.grade !== undefined) {
+        currentTotal += (assignment.grade * weight / 100);
+        completedWeight += weight;
+      } else {
+        remainingWeight += weight;
+      }
+    });
+  }
 
-  // Ensure values are within valid ranges
-  currentTotal = Math.min(Math.max(currentTotal, 0), 100);
-  pointPotential = Math.min(Math.max(pointPotential, 0), 100);
-  remainingWeight = Math.min(Math.max(remainingWeight, 0), 100);
+  // Calculate point potential (maximum possible grade)
+  const pointPotential = isWeightValid 
+    ? currentTotal + remainingWeight 
+    : 0;
 
   return {
-    currentTotal,
-    pointPotential,
-    remainingWeight,
-    isComplete: remainingWeight === 0
+    currentTotal: isWeightValid ? currentTotal : 0,
+    pointPotential: isWeightValid ? pointPotential : 0,
+    remainingWeight: isWeightValid ? remainingWeight : 0,
+    completedWeight: isWeightValid ? completedWeight : 0,
+    isComplete: remainingWeight === 0,
+    totalWeight,
+    isWeightValid,
+    weightValidationMessage: getWeightValidationMessage(totalWeight)
   };
 }
 
-export function calculateRequiredGrade(
-  currentTotal: number,
-  targetGrade: number,
-  remainingWeight: number
-): number | null {
-  // Validate inputs
-  if (remainingWeight <= 0) return null;
-  if (currentTotal < 0 || targetGrade < 0 || remainingWeight < 0) return null;
-  if (currentTotal > 100 || targetGrade > 100 || remainingWeight > 100) return null;
-  
-  const remainingPoints = targetGrade - currentTotal;
-  const requiredGrade = (remainingPoints / remainingWeight) * 100;
-  
-  // If the required grade is negative or NaN, return null
-  if (isNaN(requiredGrade) || requiredGrade < 0) return null;
-  
-  return requiredGrade;
+function getWeightValidationMessage(totalWeight: number): string {
+  if (Math.abs(totalWeight - 100) < 0.01) {
+    return 'Assignment weights total 100% ✓';
+  }
+  if (totalWeight < 100) {
+    return `Assignment weights currently total ${totalWeight.toFixed(1)}% (need ${(100 - totalWeight).toFixed(1)}% more)`;
+  }
+  return `Assignment weights currently total ${totalWeight.toFixed(1)}% (${(totalWeight - 100).toFixed(1)}% too high)`;
+}
+
+export function validateWeightTotal(assignments: Assignment[]): boolean {
+  const totalWeight = assignments.reduce((sum, a) => sum + (a.weight || 0), 0);
+  return Math.abs(totalWeight - 100) < 0.01;
 } 
