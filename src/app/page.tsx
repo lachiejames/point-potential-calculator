@@ -1,18 +1,51 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Subject, Assignment } from "@/types/subject";
 import { calculateSubjectSummary, getDemoData } from "@/utils/calculations";
+import { encodeStateToUrl, decodeStateFromUrl } from "@/utils/url";
 
 export default function Home() {
-  const [subjects, setSubjects] = useState<Subject[]>(getDemoData());
+  const [subjects, setSubjects] = useState<Subject[]>([]);
   const [newSubjectName, setNewSubjectName] = useState("");
   const [editingSubjectId, setEditingSubjectId] = useState<string | null>(null);
   const [showNameError, setShowNameError] = useState(false);
-  const [expandedSubjectIds, setExpandedSubjectIds] = useState<Set<string>>(
-    new Set(getDemoData().map(subject => subject.id))
-  );
+  const [expandedSubjectIds, setExpandedSubjectIds] = useState<Set<string>>(new Set());
   const [isShowingDemoData, setIsShowingDemoData] = useState(true);
+  const [shareUrl, setShareUrl] = useState<string>("");
+  const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+
+  // Load state from URL on initial render
+  useEffect(() => {
+    const urlSubjects = decodeStateFromUrl(window.location.search);
+    if (urlSubjects) {
+      setSubjects(urlSubjects);
+      setExpandedSubjectIds(new Set(urlSubjects.map(subject => subject.id)));
+      setIsShowingDemoData(false);
+    } else {
+      setSubjects(getDemoData());
+      setExpandedSubjectIds(new Set(getDemoData().map(subject => subject.id)));
+    }
+  }, []);
+
+  // Update share URL whenever subjects change
+  useEffect(() => {
+    if (subjects.length > 0) {
+      setShareUrl(encodeStateToUrl(subjects));
+    } else {
+      setShareUrl("");
+    }
+  }, [subjects]);
+
+  const copyShareLink = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setShowCopiedMessage(true);
+      setTimeout(() => setShowCopiedMessage(false), 2000);
+    } catch (error) {
+      console.error('Failed to copy URL:', error);
+    }
+  };
 
   const toggleSubject = (subjectId: string) => {
     setExpandedSubjectIds(prev => {
@@ -164,6 +197,34 @@ export default function Home() {
         <h1 className="text-4xl font-bold text-gray-800 mb-4 text-center">
           Point Potential Calculator
         </h1>
+
+        {/* Share Link Button */}
+        {subjects.length > 0 && (
+          <div className="mb-8 p-6 bg-white rounded-xl shadow-sm border border-blue-100">
+            <div className="flex flex-col gap-4">
+              <h2 className="text-xl font-semibold text-blue-800">
+                Share Your Calculations
+              </h2>
+              <p className="text-gray-600">
+                Copy this link to access your calculations from any device or share with others:
+              </p>
+              <div className="flex gap-4">
+                <input
+                  type="text"
+                  value={shareUrl}
+                  readOnly
+                  className="flex-1 p-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-600"
+                />
+                <button
+                  onClick={copyShareLink}
+                  className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium shadow-sm whitespace-nowrap"
+                >
+                  {showCopiedMessage ? "Copied!" : "Copy Link"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* User Guide */}
         <div className="mb-8 p-6 bg-white rounded-xl shadow-sm border border-blue-100">
